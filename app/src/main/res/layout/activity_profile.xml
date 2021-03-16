@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity">
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_centerInParent="true"
+        android:background="@drawable/register_btn"
+        android:elevation="5dp"
+        android:shadowRadius="8"
+        android:shadowColor="@color/black"
+        android:layout_marginTop="10dp"/>
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spin_kit1"
+        style="@style/SpinKitView.Large.WanderingCubes"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:SpinKit_Color="#193566" />
+
+</RelativeLayout>

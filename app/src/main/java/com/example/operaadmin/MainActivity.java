@@ -10,31 +10,29 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.SpinKitView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button logout;
-    FirebaseAuth mauth;
-    SpinKitView progressBar;
+    FloatingActionButton fab;
+    FirebaseUser firebaseUser;
+    FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logout = findViewById(R.id.logout);
-        mauth = FirebaseAuth.getInstance();
-        progressBar = findViewById(R.id.spin_kit1);
+        fab = findViewById(R.id.fab);
+        mAuth = FirebaseAuth.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        logout.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                progressBar.setFocusable(true);
-                mauth.signOut();
-                startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                finish();
-                Toast.makeText(MainActivity.this, "Logged Out!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this,ProfileActivity.class));
             }
         });
     }

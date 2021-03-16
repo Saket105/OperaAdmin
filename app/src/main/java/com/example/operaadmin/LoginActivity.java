@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     Button signIn;
     FirebaseAuth mAuth;
     SpinKitView progressBar;
+    FirebaseUser firebaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,9 @@ public class LoginActivity extends AppCompatActivity {
         signIn = findViewById(R.id.login_btn);
         mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.spin_kit);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        onStart();
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,5 +110,13 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (firebaseUser != null){
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
     }
 }
