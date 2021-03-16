@@ -24,7 +24,7 @@
         android:orientation="horizontal"
         android:layout_below="@+id/tv"
         android:layout_centerHorizontal="true"
-        android:layout_margin="15dp"
+        android:layout_marginTop="15dp"
         android:weightSum="2">
 
         <LinearLayout
@@ -56,7 +56,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="8dp"
+            android:layout_marginVertical="8dp"
+            android:padding="5dp"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -66,14 +68,17 @@
                 android:text="Select Category Of the song"
                 android:textColor="@color/main_color"
                 android:textStyle="bold"
-                android:textSize="16sp"
+                android:textSize="14sp"
+                android:layout_margin="2dp"
                 android:gravity="center"/>
 
             <Spinner
                 android:id="@+id/spinner"
-                android:layout_width="150dp"
-                android:layout_height="45dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:autofillHints="Category"
+                android:layout_margin="7dp"
+                android:padding="4dp"
                 android:textColor="@color/main_color"
                 android:textSize="16sp"/>
 
@@ -82,6 +87,8 @@
                 android:layout_height="wrap_content"
                 android:hint="Enter the Song Name..."
                 android:textColor="@color/main_color"
+                android:padding="4dp"
+                android:background="@drawable/text_border"
                 android:textColorHint="#B2193566"
                 android:textSize="14sp"
                 android:layout_margin="5dp"
@@ -92,15 +99,31 @@
                 android:layout_height="wrap_content"
                 android:hint="Enter the Singer Name..."
                 android:textColor="@color/main_color"
+                android:padding="4dp"
                 android:textColorHint="#B2193566"
                 android:textSize="14sp"
+                android:background="@drawable/text_border"
                 android:layout_margin="5dp"
                 android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/path"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Here Your File path will be shown"
+                android:background="@drawable/text_border"
+                android:textColor="@color/main_color"
+                android:textSize="14sp"
+                android:padding="4dp"
+                android:gravity="center"
+                android:textColorHint="#B2193566"/>
         </LinearLayout>
 
     </LinearLayout>
 
+
     <Button
+        android:id="@+id/upload_btn"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linear"

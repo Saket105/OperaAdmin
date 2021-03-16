@@ -1,5 +1,6 @@
 package com.example.operaadmin;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.SpinKitView;
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     FirebaseAuth mAuth;
     Spinner spinner;
+    Button upload;
+    TextView showPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         spinner = findViewById(R.id.spinner);
+        upload = findViewById(R.id.upload_btn);
+        showPath = findViewById(R.id.path);
 
         final List<String> song_category = new ArrayList<>();
         song_category.add("HipHop");
@@ -63,5 +69,27 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this,ProfileActivity.class));
             }
         });
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                myFileIntent.setType("audio/*");
+                startActivityForResult(myFileIntent,1);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    String path = data.getData().getPath();
+                    showPath.setText(path);
+                }
+                break;
+        }
     }
 }
