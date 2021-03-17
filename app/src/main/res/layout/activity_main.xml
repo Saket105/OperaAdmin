@@ -1,154 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/relative"
     tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Upload Song From Here"
-        android:textColor="@color/main_color"
-        android:textStyle="bold"
-        android:textSize="30sp"
-        android:gravity="center"/>
-
-    <LinearLayout
-        android:id="@+id/linear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/tv"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:weightSum="2">
-
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="7dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Tab the below image to Upload Song Poster"
-                android:textColor="@color/main_color"
-                android:layout_margin="4dp"
-                android:gravity="center"/>
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
             <ImageView
-                android:id="@+id/song_poster"
-                android:layout_width="match_parent"
+                android:id="@+id/song_image"
+                android:layout_width="170dp"
                 android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
                 android:src="@drawable/music"
-                android:layout_marginHorizontal="5dp"
-                android:padding="5dp"
-                android:layout_marginBottom="5dp"
-                android:scaleType="centerCrop"/>
-        </LinearLayout>
+                android:scaleType="fitXY"
+                />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginVertical="8dp"
-            android:padding="5dp"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv1"
+            <EditText
+                android:id="@+id/song_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select Category Of the song"
+                android:hint="Song Name..."
                 android:textColor="@color/main_color"
+                android:textColorHint="#B2193566"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="12dp"
+                android:inputType="text"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Singer Name..."
+                android:textColor="@color/main_color"
+                android:textColorHint="#B2193566"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="12dp"
+                android:inputType="text"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Choose Category:"
+                android:textColor="@color/main_color"
+                android:textSize="22sp"
                 android:textStyle="bold"
-                android:textSize="14sp"
-                android:layout_margin="2dp"
-                android:gravity="center"/>
+                android:fontFamily="@font/ubuntu_mono"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="10dp"
+                />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/category_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="Category"
-                android:layout_margin="7dp"
-                android:padding="4dp"
-                android:textColor="@color/main_color"
-                android:textSize="16sp"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter the Song Name..."
-                android:textColor="@color/main_color"
-                android:padding="4dp"
-                android:background="@drawable/text_border"
-                android:textColorHint="#B2193566"
-                android:textSize="14sp"
-                android:layout_margin="5dp"
-                android:gravity="center"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter the Singer Name..."
-                android:textColor="@color/main_color"
-                android:padding="4dp"
-                android:textColorHint="#B2193566"
-                android:textSize="14sp"
-                android:background="@drawable/text_border"
-                android:layout_margin="5dp"
-                android:gravity="center"/>
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="10dp"
+                />
 
             <TextView
-                android:id="@+id/path"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Here Your File path will be shown"
-                android:background="@drawable/text_border"
-                android:textColor="@color/main_color"
-                android:textSize="14sp"
-                android:padding="4dp"
-                android:gravity="center"
-                android:textColorHint="#B2193566"/>
+                android:text="title"
+                android:textStyle="bold"
+                android:id="@+id/title_view"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="album"
+                android:textStyle="bold"
+                android:id="@+id/album_view"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="artist"
+                android:textStyle="bold"
+                android:id="@+id/artist_view"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="data"
+                android:textStyle="bold"
+                android:id="@+id/dataa_view"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="duration"
+                android:textStyle="bold"
+                android:id="@+id/duration_view"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="10dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                >
+                <Button
+                    android:id="@+id/load_prv"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Load Previous"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    />
+                <Button
+                    android:id="@+id/upload_btn"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:background="@color/main_color"
+                    android:text="Upload"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_songs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                />
         </LinearLayout>
 
-    </LinearLayout>
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progress_circular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_centerInParent="true"
+            android:background="@color/main_color"
+            />
 
-
-    <Button
-        android:id="@+id/upload_btn"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linear"
-        android:layout_centerHorizontal="true"
-        android:text="Upload"
-        android:layout_marginTop="45dp"
-        android:background="@drawable/register_btn"/>
-
-    <ProgressBar
-        android:id="@+id/progress_circular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@color/main_color"
-        />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabSize="normal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_baseline_person_24"
-        android:theme="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:layout_margin="20dp"/>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            app:fabSize="mini"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="15dp"
+            android:src="@drawable/ic_baseline_person_24"
+            android:theme="@style/Widget.MaterialComponents.ExtendedFloatingActionButton" />
 
 </RelativeLayout>

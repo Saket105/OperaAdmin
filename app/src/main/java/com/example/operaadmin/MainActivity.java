@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.fab);
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.category_name);
         upload = findViewById(R.id.upload_btn);
-        showPath = findViewById(R.id.path);
+        showPath = findViewById(R.id.title_view);
 
         final List<String> song_category = new ArrayList<>();
         song_category.add("HipHop");
@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         song_category.add("Sad");
         song_category.add("Punjabi");
         song_category.add("Back In 90's");
-        song_category.add("English");
-        song_category.add("English");
+        song_category.add("Love");
+        song_category.add("Hindi");
         song_category.add("English");
         song_category.add("English");
         song_category.add("English");
