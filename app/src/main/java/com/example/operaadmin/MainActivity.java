@@ -51,11 +51,6 @@ public class MainActivity extends AppCompatActivity {
         song_category.add("Love");
         song_category.add("Hindi");
         song_category.add("English");
-        song_category.add("English");
-        song_category.add("English");
-        song_category.add("English");
-        song_category.add("English");
-        song_category.add("English");
         ArrayAdapter<String> dataAdapter;
         dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,song_category);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
