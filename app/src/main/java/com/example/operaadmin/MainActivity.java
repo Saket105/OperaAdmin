@@ -2,6 +2,7 @@ package com.example.operaadmin;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
@@ -11,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
@@ -67,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference referenceSong;
     MediaMetadataRetriever metadataRetriever;
     FirebaseStorage firebaseStorage;
-    byte [] art;
 
 
     @Override
@@ -180,26 +181,36 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==1 && resultCode==RESULT_OK && data.getData() != null) {
 
-            
-          String filename = getFileName(audiouri);
-            song_name.setText(filename);
+            byte [] art;
+//          String filename = getFileName(audiouri);
+//            song_name.setText(filename);
             audiouri = data.getData();
             metadataRetriever = new MediaMetadataRetriever();
             metadataRetriever.setDataSource(MainActivity.this,audiouri);
             art = metadataRetriever.getEmbeddedPicture();
-            Bitmap bitmap = BitmapFactory.decodeByteArray(art,0,art.length);
-            song_image.setImageBitmap(bitmap);
-            
-            tv_album.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM));
+//            Bitmap bitmap = BitmapFactory.decodeByteArray(art,0,art.length);
+//            song_image.setImageBitmap(bitmap);
+
+            if (art != null){
+                song_image.setImageBitmap(BitmapFactory.decodeByteArray(art,0,art.length));
+                metadataRetriever.release();
+            }else {
+                song_image.setImageResource(R.mipmap.ic_launcher);
+            }
+
+
             tv_title.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
+            tv_album.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM));
+            tv_artist.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST));
             tv_data.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE));
             tv_duration.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
-            tv_artist.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST));
+
         }
     }
 
@@ -277,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(myFileIntent,1);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private String getFileName(Uri uri){
 //        String result = null;
 //        if (uri.getScheme().equals("content")){
@@ -301,7 +313,10 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //        return result;
         String result = null;
-        String[] projection = {MediaStore.MediaColumns.DISPLAY_NAME};
+        String[] projection = {MediaStore.EXTRA_MEDIA_ALBUM,
+        MediaStore.EXTRA_MEDIA_TITLE,
+        MediaStore.EXTRA_MEDIA_GENRE,
+        MediaStore.EXTRA_MEDIA_ARTIST};
         ContentResolver cr = getContentResolver();
         Cursor metaCursor = cr.query(uri, projection, null, null, null);
         if (metaCursor != null) {
