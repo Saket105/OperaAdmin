@@ -1,20 +1,26 @@
 package com.example.operaadmin.Model;
 
 public class SongModels {
-    String id, title, artist, album_art, duration, category_name;
-    String image;
+    String id, song_title, song_artist, album_art, song_duration, song_category, mKey;
 
-    public SongModels(String id, String title, String artist, String album_art, String duration, String category_name, String image) {
+    public SongModels(String id, String song_title, String song_artist, String album_art, String song_duration, String song_category) {
+
+        if (song_title.trim().equals("")){
+            song_title = "No Title";
+        }
         this.id = id;
-        this.title = title;
-        this.artist = artist;
+        this.song_title = song_title;
+        this.song_artist = song_artist;
         this.album_art = album_art;
-        this.duration = duration;
-        this.category_name = category_name;
-        this.image = image;
+        this.song_duration = song_duration;
+        this.song_category = song_category;
+//        this.mKey = mKey;
     }
 
     public SongModels() {
+    }
+
+    public SongModels(String category_sel, String toString, String toString1, String toString2, String image_url, String toString3, String toString4) {
     }
 
     public String getId() {
@@ -25,20 +31,20 @@ public class SongModels {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getSong_title() {
+        return song_title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setSong_title(String song_title) {
+        this.song_title = song_title;
     }
 
-    public String getArtist() {
-        return artist;
+    public String getSong_artist() {
+        return song_artist;
     }
 
-    public void setArtist(String artist) {
-        this.artist = artist;
+    public void setSong_artist(String song_artist) {
+        this.song_artist = song_artist;
     }
 
     public String getAlbum_art() {
@@ -49,27 +55,27 @@ public class SongModels {
         this.album_art = album_art;
     }
 
-    public String getDuration() {
-        return duration;
+    public String getSong_duration() {
+        return song_duration;
     }
 
-    public void setDuration(String duration) {
-        this.duration = duration;
+    public void setSong_duration(String song_duration) {
+        this.song_duration = song_duration;
     }
 
-    public String getCategory_name() {
-        return category_name;
+    public String getSong_category() {
+        return song_category;
     }
 
-    public void setCategory_name(String category_name) {
-        this.category_name = category_name;
+    public void setSong_category(String song_category) {
+        this.song_category = song_category;
     }
 
-    public String getImage() {
-        return image;
+    public String getmKey() {
+        return mKey;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setmKey(String mKey) {
+        this.mKey = mKey;
     }
 }
