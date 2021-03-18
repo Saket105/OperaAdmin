@@ -203,71 +203,73 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    private void StoreImage(Uri uri) {
-//        id = String.valueOf(System.currentTimeMillis());
-//        StorageReference reference = storageReference.child("/"+id+".jpg");
-//        reference.putFile(uri)
-//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                        image_url = taskSnapshot.getMetadata().getPath();
-//                        taskSnapshot.getStorage().getDownloadUrl()
-//                                .addOnFailureListener(new OnFailureListener() {
-//                                    @Override
-//                                    public void onFailure(@NonNull Exception e) {
-//                                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                                    }
-//                                })
-//                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                                    @Override
-//                                    public void onSuccess(Uri uri) {
-//                                        String url = uri.toString();
-//                                        songModels = new SongModels(
-//                                                id,
-//                                                song_name.getText().toString(),
-//                                                artist_name.getText().toString(),
-//                                                "",
-//                                                "",
-//                                                category_sel,
-//                                                url
-//                                        );
-//                                        uploadToDatabase(songModels);
-//                                    }
-//                                }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
-//    private void uploadToDatabase(SongModels songModels) {
-//        FirebaseDatabase
-//                .getInstance()
-//                .getReference("songs")
-//                .child(songModels.getId())
-//                .setValue(songModels)
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()){
-//                            Toast.makeText(MainActivity.this, task.toString(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+    /*
+    private void StoreImage(Uri uri) {
+        id = String.valueOf(System.currentTimeMillis());
+        StorageReference reference = storageReference.child("/"+id+".jpg");
+        reference.putFile(uri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        image_url = taskSnapshot.getMetadata().getPath();
+                        taskSnapshot.getStorage().getDownloadUrl()
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        String url = uri.toString();
+                                        songModels = new SongModels(
+                                                id,
+                                                song_name.getText().toString(),
+                                                artist_name.getText().toString(),
+                                                "",
+                                                url,
+                                                category_sel,
+                                                ""
+                                        );
+                                        uploadToDatabase(songModels);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    */
+
+  /*  private void uploadToDatabase(SongModels songModels) {
+        FirebaseDatabase
+                .getInstance()
+                .getReference("songs")
+                .child(songModels.getId())
+                .setValue(songModels)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(MainActivity.this, task.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }  */
 
     public void openAudioFile(View v){
         Intent myFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -351,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
                                     tv_duration.getText().toString(),
                                     image_url,
                                     tv_duration.getText().toString(),
-                                    uri.toString()
+                                    url
                             );
                             String uploadID = reference.push().getKey();
                             reference.child(uploadID).setValue(songModels1)
