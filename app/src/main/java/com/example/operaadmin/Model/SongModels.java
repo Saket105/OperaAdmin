@@ -1,81 +1,86 @@
 package com.example.operaadmin.Model;
 
+import com.google.firebase.database.Exclude;
+
 public class SongModels {
-    String id, song_title, song_artist, album_art, song_duration, song_category, mKey;
+    String SongTitle, SongArtist, SongAlbum, SongDuration, SongLink, mKey, SongPoster, SongCategory;
 
-    public SongModels(String id, String song_title, String song_artist, String album_art, String song_duration, String song_category) {
-
-        if (song_title.trim().equals("")){
-            song_title = "No Title";
-        }
-        this.id = id;
-        this.song_title = song_title;
-        this.song_artist = song_artist;
-        this.album_art = album_art;
-        this.song_duration = song_duration;
-        this.song_category = song_category;
-//        this.mKey = mKey;
+    public SongModels(String songTitle, String songArtist, String songAlbum, String songDuration, String songLink, String songPoster, String songCategory) {
+        SongTitle = songTitle;
+        SongArtist = songArtist;
+        SongAlbum = songAlbum;
+        SongDuration = songDuration;
+        SongLink = songLink;
+        SongPoster = songPoster;
+        SongCategory = songCategory;
     }
 
     public SongModels() {
     }
 
-    public SongModels(String category_sel, String toString, String toString1, String toString2, String image_url, String toString3, String toString4) {
+    public String getSongTitle() {
+        return SongTitle;
     }
 
-    public String getId() {
-        return id;
+    public void setSongTitle(String songTitle) {
+        SongTitle = songTitle;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getSongArtist() {
+        return SongArtist;
     }
 
-    public String getSong_title() {
-        return song_title;
+    public void setSongArtist(String songArtist) {
+        SongArtist = songArtist;
     }
 
-    public void setSong_title(String song_title) {
-        this.song_title = song_title;
+    public String getSongAlbum() {
+        return SongAlbum;
     }
 
-    public String getSong_artist() {
-        return song_artist;
+    public void setSongAlbum(String songAlbum) {
+        SongAlbum = songAlbum;
     }
 
-    public void setSong_artist(String song_artist) {
-        this.song_artist = song_artist;
+    public String getSongDuration() {
+        return SongDuration;
     }
 
-    public String getAlbum_art() {
-        return album_art;
+    public void setSongDuration(String songDuration) {
+        SongDuration = songDuration;
     }
 
-    public void setAlbum_art(String album_art) {
-        this.album_art = album_art;
+    public String getSongLink() {
+        return SongLink;
     }
 
-    public String getSong_duration() {
-        return song_duration;
+    public void setSongLink(String songLink) {
+        SongLink = songLink;
     }
 
-    public void setSong_duration(String song_duration) {
-        this.song_duration = song_duration;
-    }
-
-    public String getSong_category() {
-        return song_category;
-    }
-
-    public void setSong_category(String song_category) {
-        this.song_category = song_category;
-    }
-
+    @Exclude
     public String getmKey() {
         return mKey;
     }
 
+    @Exclude
     public void setmKey(String mKey) {
         this.mKey = mKey;
+    }
+
+    public String getSongPoster() {
+        return SongPoster;
+    }
+
+    public void setSongPoster(String songPoster) {
+        SongPoster = songPoster;
+    }
+
+    public String getSongCategory() {
+        return SongCategory;
+    }
+
+    public void setSongCategory(String songCategory) {
+        SongCategory = songCategory;
     }
 }

@@ -47,8 +47,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,13 +61,15 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     Spinner category_name;
     String image_url,url,id,category_sel;
+    String timeDurations;
+    String durationText;
     ImageView song_image;
     Button upload,load_prv;
     EditText artist_name,song_name;
     TextView tv_title,tv_album, tv_artist, tv_data, tv_duration;
     Uri audiouri;
-    StorageTask storageTask;
-    StorageReference storageReference;
+    StorageTask mUploadTask;
+    StorageReference mstorageReference;
     SongModels songModels;
     List<String> song_category,ids;
     List<SongModels> songModelsList;
@@ -97,10 +102,9 @@ public class MainActivity extends AppCompatActivity {
         ids =new ArrayList<>();
         songModelsList =new ArrayList<>();
         referenceSong = FirebaseDatabase.getInstance().getReference().child("songs");
-        storageReference = FirebaseStorage.getInstance().getReference().child("songs");
+        mstorageReference = FirebaseStorage.getInstance().getReference().child("songs");
         firebaseStorage = FirebaseStorage.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        Context context;
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading...");
         progressDialog.setMessage("Please wait while we upload this song to your backend!");
@@ -236,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION) != null) {
                     tv_duration.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+                    timeDurations = tv_duration.getText().toString();
                 }
 
                 if (metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST) != null) {
@@ -320,49 +325,49 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private String getFileName(Uri uri){
-//        String result = null;
-//        if (uri.getScheme().equals("content")){
-//            Cursor cursor = getContentResolver().query(uri,null,null,null,null);
-//
-//            try {
-//
-//                if (cursor != null && cursor.moveToFirst()) {
-//                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-//                }
-//            }
-//            finally {
-//                cursor.close();
-//            }
-//        }
-//        if (result == null){
-//            result = uri.getPath();
-//            int cut = result.lastIndexOf('/');
-//            if (cut!= -1){
-//                result = result.substring(cut+1);
-//            }
-//        }
-//        return result;
         String result = null;
-        String[] projection = {MediaStore.EXTRA_MEDIA_ALBUM,
-                MediaStore.EXTRA_MEDIA_TITLE,
-                MediaStore.EXTRA_MEDIA_GENRE,
-                MediaStore.EXTRA_MEDIA_ARTIST};
-        ContentResolver cr = getContentResolver();
-        Cursor metaCursor = cr.query(uri, projection, null, null, null);
-        if (metaCursor != null) {
+        if (uri.getScheme().equals("content")){
+            Cursor cursor = getContentResolver().query(uri,null,null,null,null);
+
             try {
-                if (metaCursor.moveToFirst()) {
-                    result = metaCursor.getString(0);
+
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                 }
-            } finally {
-                metaCursor.close();
+            }
+            finally {
+                cursor.close();
+            }
+        }
+        if (result == null){
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut!= -1){
+                result = result.substring(cut+1);
             }
         }
         return result;
+//        String result = null;
+//        String[] projection = {MediaStore.EXTRA_MEDIA_ALBUM,
+//                MediaStore.EXTRA_MEDIA_TITLE,
+//                MediaStore.EXTRA_MEDIA_GENRE,
+//                MediaStore.EXTRA_MEDIA_ARTIST};
+//        ContentResolver cr = getContentResolver();
+//        Cursor metaCursor = cr.query(uri, projection, null, null, null);
+//        if (metaCursor != null) {
+//            try {
+//                if (metaCursor.moveToFirst()) {
+//                    result = metaCursor.getString(0);
+//                }
+//            } finally {
+//                metaCursor.close();
+//            }
+//        }
+//        return result;
     }
 
     public void uploadToFirebaseDatabase(View v){
-        if (storageTask != null && storageTask.isInProgress()){
+        if (mUploadTask != null && mUploadTask.isInProgress()){
             Toast.makeText(this, "Song upload is in process", Toast.LENGTH_SHORT).show();
         }else {
             progressDialog.show();
@@ -376,8 +381,17 @@ public class MainActivity extends AppCompatActivity {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(audiouri));
     }
 
+    private String getDurationFromMilli(int durationInMillis){
+        Date date = new Date(durationInMillis);
+        SimpleDateFormat timeFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
+        String myTime = timeFormat.format(date);
+        return myTime;
+    }
+
+
+
     private void uploadFiles() {
-       /* if (audiouri != null){
+        /*if (audiouri != null){
             Toast.makeText(this, "Uploading Please wait!", Toast.LENGTH_SHORT).show();
 
             final String filename1 = System.currentTimeMillis()+"."+getFileExtension(audiouri);
@@ -422,10 +436,61 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                     double progress = (100.0* snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+                    progressDialog.setProgress((int) progress);
                 }
             });
         }else {
             Toast.makeText(this, "No file selected to upload!", Toast.LENGTH_SHORT).show();
         }*/
+
+        if (audiouri != null){
+            Toast.makeText(this, "Uploading please wait...", Toast.LENGTH_SHORT).show();
+            progressDialog.show();
+            StorageReference storageReference1 = mstorageReference.child(System.currentTimeMillis()+"."+getFileExtension(audiouri));
+            int durationsInMillies = Integer.parseInt(timeDurations);
+            if (durationsInMillies == 0){
+                durationText  = "NA";
+            }
+            durationText = getDurationFromMilli(durationsInMillies);
+            mUploadTask = storageReference1.putFile(audiouri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    SongModels songModels1 = new SongModels(
+                                            tv_title.getText().toString(),
+                                            tv_artist.getText().toString(),
+                                            tv_album.getText().toString(),
+                                            durationText,
+                                            audiouri.toString(),
+                                            song_image.toString(),
+                                            category_sel
+                                    );
+                                    String uploadId = referenceSong.push().getKey();
+                                    referenceSong.child(uploadId).setValue(songModels1);
+                                    progressDialog.dismiss();
+                                    Toast.makeText(MainActivity.this, "Upload SuccessFull!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                            double progress = (100.0* snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+                            progressDialog.setProgress((int) progress);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }else {
+            progressDialog.dismiss();
+            Toast.makeText(this, "No File is Selected", Toast.LENGTH_SHORT).show();
+        }
     }
 }
