@@ -5,7 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference referenceSong;
     MediaMetadataRetriever metadataRetriever;
     FirebaseStorage firebaseStorage;
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -97,7 +100,13 @@ public class MainActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference().child("songs");
         firebaseStorage = FirebaseStorage.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
+        Context context;
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading...");
+        progressDialog.setMessage("Please wait while we upload this song to your backend!");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 
+       // metadataRetriever = new MediaMetadataRetriever();
         final List<String> song_category = new ArrayList<>();
         song_category.add("HipHop");
         song_category.add("Rock");
@@ -181,6 +190,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void openAudioFile(View v){
+        Intent myFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        myFileIntent.setType("audio/*");
+        startActivityForResult(myFileIntent,1);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -188,28 +203,49 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode==1 && resultCode==RESULT_OK && data.getData() != null) {
 
             byte [] art;
-//          String filename = getFileName(audiouri);
-//            song_name.setText(filename);
             audiouri = data.getData();
+            String filename = getFileName(audiouri);
+            song_name.setText(filename);
+
             metadataRetriever = new MediaMetadataRetriever();
-            metadataRetriever.setDataSource(MainActivity.this,audiouri);
+            metadataRetriever.setDataSource(this,audiouri);
             art = metadataRetriever.getEmbeddedPicture();
 //            Bitmap bitmap = BitmapFactory.decodeByteArray(art,0,art.length);
 //            song_image.setImageBitmap(bitmap);
 
             if (art != null){
                 song_image.setImageBitmap(BitmapFactory.decodeByteArray(art,0,art.length));
-                metadataRetriever.release();
+                //metadataRetriever.release();
             }else {
                 song_image.setImageResource(R.mipmap.ic_launcher);
             }
 
+            if (metadataRetriever != null) {
 
-            tv_title.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
-            tv_album.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM));
-            tv_artist.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST));
-            tv_data.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE));
-            tv_duration.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+                if (metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE) != null) {
+                    tv_title.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
+                }
+
+                if (metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM) != null) {
+                    tv_album.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM));
+                }
+
+                if (metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE) != null) {
+                    tv_data.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE));
+                }
+
+                if (metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION) != null) {
+                    tv_duration.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+                }
+
+                if (metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST) != null) {
+                    tv_artist.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST));
+                }
+            }
+
+
+
+
 
         }
     }
@@ -282,12 +318,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }  */
 
-    public void openAudioFile(View v){
-        Intent myFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        myFileIntent.setType("audio/*");
-        startActivityForResult(myFileIntent,1);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private String getFileName(Uri uri){
 //        String result = null;
@@ -314,9 +344,9 @@ public class MainActivity extends AppCompatActivity {
 //        return result;
         String result = null;
         String[] projection = {MediaStore.EXTRA_MEDIA_ALBUM,
-        MediaStore.EXTRA_MEDIA_TITLE,
-        MediaStore.EXTRA_MEDIA_GENRE,
-        MediaStore.EXTRA_MEDIA_ARTIST};
+                MediaStore.EXTRA_MEDIA_TITLE,
+                MediaStore.EXTRA_MEDIA_GENRE,
+                MediaStore.EXTRA_MEDIA_ARTIST};
         ContentResolver cr = getContentResolver();
         Cursor metaCursor = cr.query(uri, projection, null, null, null);
         if (metaCursor != null) {
@@ -335,6 +365,7 @@ public class MainActivity extends AppCompatActivity {
         if (storageTask != null && storageTask.isInProgress()){
             Toast.makeText(this, "Song upload is in process", Toast.LENGTH_SHORT).show();
         }else {
+            progressDialog.show();
             uploadFiles();
         }
     }
@@ -346,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void uploadFiles() {
-        if (audiouri != null){
+       /* if (audiouri != null){
             Toast.makeText(this, "Uploading Please wait!", Toast.LENGTH_SHORT).show();
 
             final String filename1 = System.currentTimeMillis()+"."+getFileExtension(audiouri);
@@ -375,6 +406,7 @@ public class MainActivity extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
+                                            progressDialog.dismiss();
                                             Toast.makeText(MainActivity.this, "File Uploaded", Toast.LENGTH_SHORT).show();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
@@ -389,11 +421,11 @@ public class MainActivity extends AppCompatActivity {
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                    double progress = (100.0* snapshot.getBytesTransferred()/snapshot.getTotalByteCount());
+                    double progress = (100.0* snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
                 }
             });
         }else {
             Toast.makeText(this, "No file selected to upload!", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 }
