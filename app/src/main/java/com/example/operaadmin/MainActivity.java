@@ -347,23 +347,23 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return result;
-//        String result = null;
-//        String[] projection = {MediaStore.EXTRA_MEDIA_ALBUM,
-//                MediaStore.EXTRA_MEDIA_TITLE,
-//                MediaStore.EXTRA_MEDIA_GENRE,
-//                MediaStore.EXTRA_MEDIA_ARTIST};
-//        ContentResolver cr = getContentResolver();
-//        Cursor metaCursor = cr.query(uri, projection, null, null, null);
-//        if (metaCursor != null) {
-//            try {
-//                if (metaCursor.moveToFirst()) {
-//                    result = metaCursor.getString(0);
-//                }
-//            } finally {
-//                metaCursor.close();
-//            }
-//        }
-//        return result;
+/*        String result = null;
+        String[] projection = {MediaStore.EXTRA_MEDIA_ALBUM,
+                MediaStore.EXTRA_MEDIA_TITLE,
+                MediaStore.EXTRA_MEDIA_GENRE,
+                MediaStore.EXTRA_MEDIA_ARTIST};
+        ContentResolver cr = getContentResolver();
+        Cursor metaCursor = cr.query(uri, projection, null, null, null);
+        if (metaCursor != null) {
+            try {
+                if (metaCursor.moveToFirst()) {
+                    result = metaCursor.getString(0);
+                }
+            } finally {
+                metaCursor.close();
+            }
+        }
+        return result;*/
     }
 
     public void uploadToFirebaseDatabase(View v){
