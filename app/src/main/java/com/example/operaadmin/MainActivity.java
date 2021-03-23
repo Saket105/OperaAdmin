@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseDatabase firebaseDatabase;
     Spinner category_name;
-    String image_url,url,id,category_sel;
+    String image_url,url,id,category_sel, song_url;
     String timeDurations;
     String durationText;
     ImageView song_image;
@@ -443,54 +443,108 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No file selected to upload!", Toast.LENGTH_SHORT).show();
         }*/
 
-        if (audiouri != null){
-            Toast.makeText(this, "Uploading please wait...", Toast.LENGTH_SHORT).show();
-            progressDialog.show();
-            StorageReference storageReference1 = mstorageReference.child(System.currentTimeMillis()+"."+getFileExtension(audiouri));
-            int durationsInMillies = Integer.parseInt(timeDurations);
-            if (durationsInMillies == 0){
-                durationText  = "NA";
+//        if (audiouri != null){
+//            Toast.makeText(this, "Uploading please wait...", Toast.LENGTH_SHORT).show();
+//            progressDialog.show();
+//            StorageReference storageReference1 = mstorageReference.child(System.currentTimeMillis()+"."+getFileExtension(audiouri));
+//            int durationsInMillies = Integer.parseInt(timeDurations);
+//            if (durationsInMillies == 0){
+//                durationText  = "NA";
+//            }
+//            durationText = getDurationFromMilli(durationsInMillies);
+//            mUploadTask = storageReference1.putFile(audiouri)
+//                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                        @Override
+//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                            storageReference1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                                @Override
+//                                public void onSuccess(Uri uri) {
+//                                    SongModels songModels1 = new SongModels(
+//                                            tv_title.getText().toString(),
+//                                            tv_artist.getText().toString(),
+//                                            tv_album.getText().toString(),
+//                                            durationText,
+//                                            audiouri.toString(),
+//                                            song_image.toString(),
+//                                            category_sel
+//                                    );
+//                                    String uploadId = referenceSong.push().getKey();
+//                                    referenceSong.child(uploadId).setValue(songModels1);
+//                                    progressDialog.dismiss();
+//                                    Toast.makeText(MainActivity.this, "Upload SuccessFull!", Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+//                        }
+//                    })
+//                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//                        @Override
+//                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+//                            double progress = (100.0* snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+//                            progressDialog.setProgress((int) progress);
+//                        }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//        }else {
+//            progressDialog.dismiss();
+//            Toast.makeText(this, "No File is Selected", Toast.LENGTH_SHORT).show();
+//        }
+
+        StorageReference ref = firebaseStorage.getInstance().getReference().child("Songs").child(tv_title.getText().toString().trim());
+
+        progressDialog.show();
+
+        ref.putFile(audiouri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                while (!uriTask.isComplete());
+                Uri urlSong = uriTask.getResult();
+                song_url = urlSong.toString();
+                uploadToDatabase();
+                progressDialog.dismiss();
             }
-            durationText = getDurationFromMilli(durationsInMillies);
-            mUploadTask = storageReference1.putFile(audiouri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    SongModels songModels1 = new SongModels(
-                                            tv_title.getText().toString(),
-                                            tv_artist.getText().toString(),
-                                            tv_album.getText().toString(),
-                                            durationText,
-                                            audiouri.toString(),
-                                            song_image.toString(),
-                                            category_sel
-                                    );
-                                    String uploadId = referenceSong.push().getKey();
-                                    referenceSong.child(uploadId).setValue(songModels1);
-                                    progressDialog.dismiss();
-                                    Toast.makeText(MainActivity.this, "Upload SuccessFull!", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                            double progress = (100.0* snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
-                            progressDialog.setProgress((int) progress);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }else {
-            progressDialog.dismiss();
-            Toast.makeText(this, "No File is Selected", Toast.LENGTH_SHORT).show();
-        }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                double progress = (100.0* snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+                progressDialog.setProgress((int) progress);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void uploadToDatabase() {
+        SongModels songModels1 = new SongModels(
+                tv_title.getText().toString(),
+                tv_artist.getText().toString(),
+                tv_album.getText().toString(),
+                tv_duration.getText().toString(),
+                song_url,
+                image_url,
+                category_sel
+
+        );
+        FirebaseDatabase.getInstance().getReference("songs").push().setValue(songModels1).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(MainActivity.this, "Song Uploaded!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

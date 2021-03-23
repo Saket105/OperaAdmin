@@ -6,6 +6,11 @@ public class SongModels {
     String SongTitle, SongArtist, SongAlbum, SongDuration, SongLink, mKey, SongPoster, SongCategory;
 
     public SongModels(String songTitle, String songArtist, String songAlbum, String songDuration, String songLink, String songPoster, String songCategory) {
+
+        if (songTitle.trim().equals("")){
+            songTitle = "No Title";
+        }
+
         SongTitle = songTitle;
         SongArtist = songArtist;
         SongAlbum = songAlbum;
