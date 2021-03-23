@@ -5,7 +5,7 @@ import com.google.firebase.database.Exclude;
 public class SongModels {
     String SongTitle, SongArtist, SongAlbum, SongDuration, SongLink, mKey, SongPoster, SongCategory;
 
-    public SongModels(String songTitle, String songArtist, String songAlbum, String songDuration, String songLink, String songPoster, String songCategory) {
+    public SongModels(String songTitle, String songArtist, String songAlbum, String songDuration, String songLink, String songCategory) {
 
         if (songTitle.trim().equals("")){
             songTitle = "No Title";
@@ -16,7 +16,6 @@ public class SongModels {
         SongAlbum = songAlbum;
         SongDuration = songDuration;
         SongLink = songLink;
-        SongPoster = songPoster;
         SongCategory = songCategory;
     }
 
@@ -73,10 +72,12 @@ public class SongModels {
         this.mKey = mKey;
     }
 
+    @Exclude
     public String getSongPoster() {
         return SongPoster;
     }
 
+    @Exclude
     public void setSongPoster(String songPoster) {
         SongPoster = songPoster;
     }

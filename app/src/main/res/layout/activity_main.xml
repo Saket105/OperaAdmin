@@ -74,10 +74,10 @@
                 android:layout_marginTop="10dp"
                 />
 
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="title"
+                android:hint="title"
                 android:textStyle="bold"
                 android:id="@+id/title_view"
                 android:layout_marginStart="12dp"
@@ -85,10 +85,10 @@
                 android:layout_marginTop="10dp"
                 />
 
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="album"
+                android:hint="album"
                 android:textStyle="bold"
                 android:id="@+id/album_view"
                 android:layout_marginStart="12dp"
@@ -96,10 +96,10 @@
                 android:layout_marginTop="10dp"
                 />
 
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="artist"
+                android:hint="artist"
                 android:textStyle="bold"
                 android:id="@+id/artist_view"
                 android:layout_marginStart="12dp"
@@ -107,10 +107,10 @@
                 android:layout_marginTop="10dp"
                 />
 
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="data"
+                android:hint="data"
                 android:textStyle="bold"
                 android:id="@+id/dataa_view"
                 android:layout_marginStart="12dp"
@@ -118,10 +118,10 @@
                 android:layout_marginTop="10dp"
                 />
 
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="duration"
+                android:hint="duration"
                 android:textStyle="bold"
                 android:id="@+id/duration_view"
                 android:layout_marginStart="12dp"
@@ -139,7 +139,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Load Previous"
+                    android:text="Select Song"
                     android:textStyle="bold"
                     android:layout_gravity="center"
                     android:layout_marginTop="12dp"
@@ -172,24 +172,13 @@
                 />
         </LinearLayout>
 
-        <ProgressBar
-            android:visibility="gone"
-            android:id="@+id/progress_circular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_centerInParent="true"
-            android:background="@color/main_color"
-            />
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             app:fabSize="mini"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_margin="15dp"
             android:src="@drawable/ic_baseline_person_24"
             android:theme="@style/Widget.MaterialComponents.ExtendedFloatingActionButton" />
 

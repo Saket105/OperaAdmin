@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView song_image;
     Button upload,load_prv;
     EditText artist_name,song_name;
-    TextView tv_title,tv_album, tv_artist, tv_data, tv_duration;
+    EditText tv_title,tv_album, tv_artist, tv_data, tv_duration;
     Uri audiouri;
     StorageTask mUploadTask;
     StorageReference mstorageReference;
@@ -529,7 +529,6 @@ public class MainActivity extends AppCompatActivity {
                 tv_album.getText().toString(),
                 tv_duration.getText().toString(),
                 song_url,
-                image_url,
                 category_sel
 
         );
