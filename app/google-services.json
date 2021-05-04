@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "104842805254",
-    "firebase_url": "https://opera-8b887-default-rtdb.firebaseio.com",
-    "project_id": "opera-8b887",
-    "storage_bucket": "opera-8b887.appspot.com"
+    "project_number": "60545250818",
+    "project_id": "opera-70ed6",
+    "storage_bucket": "opera-70ed6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:104842805254:android:e3681f26e7159870c00387",
+        "mobilesdk_app_id": "1:60545250818:android:a9636bd2599dbc5019591b",
         "android_client_info": {
           "package_name": "com.example.opera"
         }
       },
       "oauth_client": [
         {
-          "client_id": "104842805254-mat0ohu974od7bujiavncf7m22hqossb.apps.googleusercontent.com",
+          "client_id": "60545250818-g1u2h74v529glm3np68pqih0c4ioumu8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDcxbKSj-SzXuELZaMYeXBBuSZHt4i4a9U"
+          "current_key": "AIzaSyDLPeIgMa4GbIdWXxSQ2m8d_Wz2rjEIWeY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "104842805254-mat0ohu974od7bujiavncf7m22hqossb.apps.googleusercontent.com",
+              "client_id": "60545250818-g1u2h74v529glm3np68pqih0c4ioumu8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -37,14 +36,14 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:104842805254:android:a2380539f404d8d1c00387",
+        "mobilesdk_app_id": "1:60545250818:android:1a6e934b6a70e1f019591b",
         "android_client_info": {
           "package_name": "com.example.operaadmin"
         }
       },
       "oauth_client": [
         {
-          "client_id": "104842805254-4ceud2hu1t059in8bg5mi9gb9prsi48u.apps.googleusercontent.com",
+          "client_id": "60545250818-1d6dktrag6tqflqpka4hqs0dnav056or.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.operaadmin",
@@ -52,20 +51,20 @@
           }
         },
         {
-          "client_id": "104842805254-mat0ohu974od7bujiavncf7m22hqossb.apps.googleusercontent.com",
+          "client_id": "60545250818-g1u2h74v529glm3np68pqih0c4ioumu8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDcxbKSj-SzXuELZaMYeXBBuSZHt4i4a9U"
+          "current_key": "AIzaSyDLPeIgMa4GbIdWXxSQ2m8d_Wz2rjEIWeY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "104842805254-mat0ohu974od7bujiavncf7m22hqossb.apps.googleusercontent.com",
+              "client_id": "60545250818-g1u2h74v529glm3np68pqih0c4ioumu8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
